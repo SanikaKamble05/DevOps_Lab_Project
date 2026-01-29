@@ -2,12 +2,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddTask {
+    private ArrayList<Task> tasks = new ArrayList<>();
+    private Scanner sc = new Scanner(System.in);
 
-    private ArrayList<String> tasks = new ArrayList<>();
+    public void addTask() {
+        System.out.print("Enter task title: ");
+        String title = sc.nextLine();
+        addTask(title);
+    }
 
-    // Your module: Add Task
-    public void addTask(String task) {
-        if (task != null && !task.trim().isEmpty()) {
+    public void addTask(String title) {
+        if (title != null && !title.trim().isEmpty()) {
+            Task task = new Task(tasks.size() + 1, title);
             tasks.add(task);
             System.out.println("Task added: " + task);
         } else {
@@ -15,25 +21,8 @@ public class AddTask {
         }
     }
 
-    // For checking output
-    public void showTasks() {
-        System.out.println("Tasks:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
-    }
-
-    // Test runner (temporary)
-    public static void main(String[] args) {
-        AddTask addTaskModule = new AddTask();
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter a task to add: ");
-        String task = sc.nextLine();
-
-        addTaskModule.addTask(task);
-        addTaskModule.showTasks();
-
-        sc.close();
+    // Getter for tasks
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }
