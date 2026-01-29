@@ -1,8 +1,11 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class AddTask {
+
     private ArrayList<String> tasks = new ArrayList<>();
 
+    // Your module: Add Task
     public void addTask(String task) {
         if (task != null && !task.trim().isEmpty()) {
             tasks.add(task);
@@ -12,43 +15,25 @@ public class AddTask {
         }
     }
 
-    public ArrayList<String> getTasks() {
-        return tasks;
-    }
-
+    // For checking output
     public void showTasks() {
-        System.out.println("Your tasks:");
+        System.out.println("Tasks:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
     }
 
+    // Test runner (temporary)
     public static void main(String[] args) {
-        AddTask todo = new AddTask();
-        java.util.Scanner sc = new java.util.Scanner(System.in);
+        AddTask addTaskModule = new AddTask();
+        Scanner sc = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("\n1. Add Task\n2. Show Tasks\n3. Exit");
-            System.out.print("Enter choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // consume newline
+        System.out.print("Enter a task to add: ");
+        String task = sc.nextLine();
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter task: ");
-                    String task = sc.nextLine();
-                    todo.addTask(task);
-                    break;
-                case 2:
-                    todo.showTasks();
-                    break;
-                case 3:
-                    System.out.println("Exiting...");
-                    sc.close();
-                    return;
-                default:
-                    System.out.println("Invalid choice!");
-            }
-        }
+        addTaskModule.addTask(task);
+        addTaskModule.showTasks();
+
+        sc.close();
     }
 }
