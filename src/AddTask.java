@@ -12,18 +12,19 @@ public class AddTask {
     }
 
     public void addTask(String title) {
-        if (title != null && !title.trim().isEmpty()) {
-            Task task = new Task(tasks.size() + 1, title);
-            tasks.add(task);
-            System.out.println("Task added: " + task);
-        } else {
-            System.out.println("Cannot add empty task!");
-        }
+        addTask(tasks, title);
     }
 
     public void addTask(ArrayList<Task> taskList, String title) {
         if (title != null && !title.trim().isEmpty()) {
-            Task task = new Task(taskList.size() + 1, title);
+            // Find the maximum ID to ensure unique IDs even after deletions
+            int maxId = 0;
+            for (Task task : taskList) {
+                if (task.getId() > maxId) {
+                    maxId = task.getId();
+                }
+            }
+            Task task = new Task(maxId + 1, title);
             taskList.add(task);
             System.out.println("Task added: " + task);
         } else {
