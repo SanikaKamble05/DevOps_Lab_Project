@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class EditTask {
+public class EditTask {
 
-    public static void editTask(ArrayList<String> tasks) {
+    public static void editTask(ArrayList<Task> tasks) {
         Scanner sc = new Scanner(System.in);
 
         if (tasks.isEmpty()) {
@@ -13,7 +13,7 @@ class EditTask {
 
         System.out.println("Current Tasks:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            System.out.println(tasks.get(i));
         }
 
         System.out.print("Enter task number to edit: ");
@@ -25,10 +25,16 @@ class EditTask {
             return;
         }
 
-        System.out.print("Enter updated task: ");
-        String updatedTask = sc.nextLine();
+        System.out.print("Enter updated task title: ");
+        String updatedTitle = sc.nextLine();
 
-        tasks.set(taskNo - 1, updatedTask);
-        System.out.println("Task updated successfully.");
+        if (updatedTitle != null && !updatedTitle.trim().isEmpty()) {
+            Task task = tasks.get(taskNo - 1);
+            task = new Task(task.getId(), updatedTitle);
+            tasks.set(taskNo - 1, task);
+            System.out.println("Task updated successfully.");
+        } else {
+            System.out.println("Cannot update with empty title!");
+        }
     }
 }

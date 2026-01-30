@@ -21,6 +21,16 @@ public class AddTask {
         }
     }
 
+    public void addTask(ArrayList<Task> taskList, String title) {
+        if (title != null && !title.trim().isEmpty()) {
+            Task task = new Task(taskList.size() + 1, title);
+            taskList.add(task);
+            System.out.println("Task added: " + task);
+        } else {
+            System.out.println("Cannot add empty task!");
+        }
+    }
+
     // Getter for tasks
     public ArrayList<Task> getTasks() {
         return tasks;
