@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-//helo
+
 class EditTask {
 
+    
     public static void editTask(ArrayList<String> tasks) {
         Scanner sc = new Scanner(System.in);
 
@@ -17,6 +18,12 @@ class EditTask {
         }
 
         System.out.print("Enter task number to edit: ");
+        // Check if input is an integer to avoid errors
+        if (!sc.hasNextInt()) {
+            System.out.println("Please enter a valid number.");
+            return;
+        }
+        
         int taskNo = sc.nextInt();
         sc.nextLine(); // consume newline
 
@@ -35,13 +42,13 @@ class EditTask {
 
         System.out.print("Enter updated task (leave blank to keep same): ");
         String newTask = sc.nextLine();
-        if (newTask.isEmpty()) {
+        if (newTask.trim().isEmpty()) {
             newTask = oldTask;
         }
 
         System.out.print("Enter updated date (YYYY-MM-DD, leave blank to keep same): ");
         String newDate = sc.nextLine();
-        if (newDate.isEmpty()) {
+        if (newDate.trim().isEmpty()) {
             newDate = oldDate;
         }
 
