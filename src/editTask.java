@@ -25,10 +25,27 @@ class EditTask {
             return;
         }
 
-        System.out.print("Enter updated task: ");
-        String updatedTask = sc.nextLine();
+        // Split task into description and date
+        String[] parts = tasks.get(taskNo - 1).split(" \\| ");
+        String oldTask = parts[0];
+        String oldDate = parts.length > 1 ? parts[1] : "No date";
 
-        tasks.set(taskNo - 1, updatedTask);
-        System.out.println("Task updated successfully.");
+        System.out.println("Current Task: " + oldTask);
+        System.out.println("Current Date: " + oldDate);
+
+        System.out.print("Enter updated task (leave blank to keep same): ");
+        String newTask = sc.nextLine();
+        if (newTask.isEmpty()) {
+            newTask = oldTask;
+        }
+
+        System.out.print("Enter updated date (YYYY-MM-DD, leave blank to keep same): ");
+        String newDate = sc.nextLine();
+        if (newDate.isEmpty()) {
+            newDate = oldDate;
+        }
+
+        tasks.set(taskNo - 1, newTask + " | " + newDate);
+        System.out.println("Task and date updated successfully.");
     }
 }
