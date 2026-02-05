@@ -1,11 +1,16 @@
+import java.time.LocalDate;
+
 public class Task {
 
     private int id;
     private String title;
+    private LocalDate dueDate; // Added date field
 
-    public Task(int id, String title) {
+    // Updated constructor
+    public Task(int id, String title, LocalDate dueDate) {
         this.id = id;
         this.title = title;
+        this.dueDate = dueDate;
     }
 
     public int getId() {
@@ -16,9 +21,13 @@ public class Task {
         return title;
     }
 
-    // Optional: override toString for easier printing
+    // Getter for the date
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
     @Override
     public String toString() {
-        return id + ". " + title;
+        return id + ". " + title + " (Due: " + dueDate + ")";
     }
 }
