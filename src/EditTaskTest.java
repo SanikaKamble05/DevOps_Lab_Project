@@ -41,6 +41,7 @@ public class EditTaskTest {
     }
 
     // ---------- Test keep existing values ----------
+    //if empty i/p old values remain or not
     @Test
     void testEditTask_KeepExistingValues() {
         String simulatedInput = "1\n \n \n";
@@ -54,6 +55,7 @@ public class EditTaskTest {
     }
 
     // ---------- assertNotEquals ----------
+    //new task not equal to old check
     @Test
     void testEditTask_TaskIsModified() {
         String oldTask = tasks.get(0);
@@ -67,6 +69,7 @@ public class EditTaskTest {
     }
 
     // ---------- Raise exception if test fails ----------
+    //task no.index
    @Test
 void testEditTask_InvalidIndex() {
     String simulatedInput = "5\n";
@@ -80,6 +83,7 @@ void testEditTask_InvalidIndex() {
 
 
     // ---------- Repeated Test ----------
+    //repeat same tests twice
     @RepeatedTest(2)
     void testEditTask_Repeated() {
         String simulatedInput = "1\nRepeat Task\n2026-05-01\n";
