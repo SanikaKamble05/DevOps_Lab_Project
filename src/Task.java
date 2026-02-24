@@ -1,13 +1,11 @@
-import java.time.LocalDate;
-
 public class Task {
 
     private int id;
     private String title;
-    private LocalDate dueDate; // Added date field
+    private String dueDate;
 
     // Updated constructor
-    public Task(int id, String title, LocalDate dueDate) {
+    public Task(int id, String title, String dueDate) {
         this.id = id;
         this.title = title;
         this.dueDate = dueDate;
@@ -21,8 +19,8 @@ public class Task {
         return title;
     }
 
-    // Getter for the date
-    public LocalDate getDueDate() {
+    // Getter for the date as String
+    public String getDueDate() {
         return dueDate;
     }
 
