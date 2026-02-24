@@ -52,7 +52,17 @@ public class Client {
     private static void addTask() {
         System.out.print("Enter task title: ");
         String title = scanner.nextLine();
-        addTask.addTask(tasks, title);
+
+        System.out.print("Enter due date (YYYY-MM-DD): ");
+        String dateInput = scanner.nextLine();
+
+        try {
+            LocalDate dueDate = LocalDate.parse(dateInput);
+            addTaskLogic.addTask(title, dueDate);
+            System.out.println("Task added successfully!");
+        } catch (Exception e) {
+            System.out.println("Invalid date format. Task not added.");
+        }
     }
 
     private static void viewTasks() {
