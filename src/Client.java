@@ -58,7 +58,7 @@ public class Client {
 
         try {
             LocalDate dueDate = LocalDate.parse(dateInput);
-            addTaskLogic.addTask(title, dueDate);
+            addTask.addTask(title, dueDate);
             System.out.println("Task added successfully!");
         } catch (Exception e) {
             System.out.println("Invalid date format. Task not added.");
