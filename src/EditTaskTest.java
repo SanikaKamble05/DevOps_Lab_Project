@@ -1,96 +1,79 @@
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class EditTaskTest {
 
-    ArrayList<String> tasks;
-    InputStream originalIn;
+    ArrayList<String> tasks; 
 
-    // ---------- setUp ----------
     @BeforeEach
     void setUp() {
         tasks = new ArrayList<>();
-        tasks.add("Buy groceries | 2026-02-10");
-        originalIn = System.in;
+        tasks.add("Buy groceries | 10-02-2026");  // default task
     }
 
-    // ---------- tearDown ----------
-    @AfterEach
-    void tearDown() {
-        System.setIn(originalIn);
-    }
-
-    // ---------- Test successful update ----------
+    // 1️⃣ Successful update (task + date)
     @Test
-    void testEditTask_SuccessfulUpdate() {
-        String simulatedInput = "1\nFix car\n2026-03-15\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+    void testSuccessfulUpdate() {
+        // Changed date format to DD-MM-YYYY to match isValidDate method
+        String input = "1\nFix car\n20-03-2026\n";
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-        EditTask.editTask(tasks);
+        EditTask.editTask(tasks, sc);
 
-        assertEquals(1, tasks.size());
-        assertEquals("Fix car | 2026-03-15", tasks.get(0));
+        assertEquals("Fix car | 20-03-2026", tasks.get(0));
     }
 
-    // ---------- Test keep existing values ----------
-    //if empty i/p old values remain or not
+    // 2️⃣ Keep existing values (blank input)
     @Test
-    void testEditTask_KeepExistingValues() {
-        String simulatedInput = "1\n \n \n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+    void testKeepExistingValues() {
+        String input = "1\n\n\n";  
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-        EditTask.editTask(tasks);
+        EditTask.editTask(tasks, sc);
 
-        assertTrue(tasks.get(0).contains("Buy groceries"));
-        assertTrue(tasks.get(0).contains("2026-02-10"));
-        assertFalse(tasks.get(0).contains("Fix car"));
+        assertEquals("Buy groceries | 10-02-2026", tasks.get(0));
     }
 
-    // ---------- assertNotEquals ----------
-    //new task not equal to old check
+    // 3️⃣ Invalid index
     @Test
-    void testEditTask_TaskIsModified() {
-        String oldTask = tasks.get(0);
+    void testInvalidIndex() {
+        String input = "5\n"; 
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-        String simulatedInput = "1\nNew Task\n2026-04-01\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        EditTask.editTask(tasks, sc);
 
-        EditTask.editTask(tasks);
-
-        assertNotEquals(oldTask, tasks.get(0));
+        // Should remain unchanged
+        assertEquals("Buy groceries | 10-02-2026", tasks.get(0));
     }
 
-    // ---------- Raise exception if test fails ----------
-    //task no.index
-   @Test
-void testEditTask_InvalidIndex() {
-    String simulatedInput = "5\n";
-    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+    // 4️⃣ Invalid date format
+    @Test
+    void testInvalidDateFormat() {
+        // Code expects DD-MM-YYYY, so YYYY-MM-DD will trigger the "Invalid" logic
+        String input = "1\nNew Task\n2026-02-10\n"; 
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-    EditTask.editTask(tasks);
+        EditTask.editTask(tasks, sc);
 
-    // Task list stays unchanged
-    assertEquals("Buy groceries | 2026-02-10", tasks.get(0));
-}
+        // Fixed the expected string to include the correct space before the pipe
+        assertEquals("New Task | 10-02-2026", tasks.get(0));
+    }
 
+    // 5️⃣ Empty task list
+    @Test
+    void testEmptyTaskList() {
+        tasks.clear();  
 
-    // ---------- Repeated Test ----------
-    //repeat same tests twice
-    @RepeatedTest(2)
-    void testEditTask_Repeated() {
-        String simulatedInput = "1\nRepeat Task\n2026-05-01\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        String input = "1\nTask\n01-06-2026\n";
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
-        EditTask.editTask(tasks);
+        EditTask.editTask(tasks, sc);
 
-        assertEquals("Repeat Task | 2026-05-01", tasks.get(0));
+        assertTrue(tasks.isEmpty());
     }
 }

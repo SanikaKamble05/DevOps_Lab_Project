@@ -1,22 +1,24 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 class EditTask {
 
-    // ---------- Date validation method ----------
+   // ---------- Date validation method ----------
     private static boolean isValidDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         try {
-            LocalDate.parse(date); // expects YYYY-MM-DD
+            LocalDate.parse(date, formatter); // expects DD-MM-YYYY
             return true;
         } catch (DateTimeParseException e) {
             return false;
         }
     }
 
-    public static void editTask(ArrayList<String> tasks) {
-        Scanner sc = new Scanner(System.in);
+    // Scanner is passed as parameter for easier testing
+    public static void editTask(ArrayList<String> tasks, Scanner sc) {
 
         if (tasks.isEmpty()) {
             System.out.println("No tasks available to edit.");
@@ -42,7 +44,7 @@ class EditTask {
             return;
         }
 
-        // Split task into description and date
+        // Split existing task
         String[] parts = tasks.get(taskNo - 1).split(" \\| ");
         String oldTask = parts[0];
         String oldDate = parts.length > 1 ? parts[1] : "No date";
@@ -69,7 +71,4 @@ class EditTask {
         tasks.set(taskNo - 1, newTask + " | " + newDate);
         System.out.println("Task and date updated successfully.");
     }
-   
-
-
 }
