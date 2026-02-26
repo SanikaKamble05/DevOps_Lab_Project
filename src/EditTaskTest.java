@@ -16,7 +16,7 @@ public class EditTaskTest {
         tasks.add("Buy groceries | 10-02-2026");  // default task
     }
 
-    // 1️⃣ Successful update (task + date)
+    //  Successful update (task + date)
     @Test
     void testSuccessfulUpdate() {
         // Changed date format to DD-MM-YYYY to match isValidDate method
@@ -28,7 +28,7 @@ public class EditTaskTest {
         assertEquals("Fix car | 20-03-2026", tasks.get(0));
     }
 
-    // 2️⃣ Keep existing values (blank input)
+    // Keep existing values (blank input)
     @Test
     void testKeepExistingValues() {
         String input = "1\n\n\n";  
@@ -39,7 +39,7 @@ public class EditTaskTest {
         assertEquals("Buy groceries | 10-02-2026", tasks.get(0));
     }
 
-    // 3️⃣ Invalid index
+    //  Invalid index
     @Test
     void testInvalidIndex() {
         String input = "5\n"; 
@@ -51,7 +51,7 @@ public class EditTaskTest {
         assertEquals("Buy groceries | 10-02-2026", tasks.get(0));
     }
 
-    // 4️⃣ Invalid date format
+    // Invalid date format
     @Test
     void testInvalidDateFormat() {
         // Code expects DD-MM-YYYY, so YYYY-MM-DD will trigger the "Invalid" logic
@@ -64,7 +64,7 @@ public class EditTaskTest {
         assertEquals("New Task | 10-02-2026", tasks.get(0));
     }
 
-    // 5️⃣ Empty task list
+    //  Empty task list
     @Test
     void testEmptyTaskList() {
         tasks.clear();  
