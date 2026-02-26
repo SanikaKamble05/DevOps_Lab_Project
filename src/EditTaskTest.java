@@ -19,7 +19,6 @@ public class EditTaskTest {
     //  Successful update (task + date)
     @Test
     void testSuccessfulUpdate() {
-        // Changed date format to DD-MM-YYYY to match isValidDate method
         String input = "1\nFix car\n20-03-2026\n";
         Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
@@ -54,13 +53,11 @@ public class EditTaskTest {
     // Invalid date format
     @Test
     void testInvalidDateFormat() {
-        // Code expects DD-MM-YYYY, so YYYY-MM-DD will trigger the "Invalid" logic
         String input = "1\nNew Task\n2026-02-10\n"; 
         Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
 
         EditTask.editTask(tasks, sc);
 
-        // Fixed the expected string to include the correct space before the pipe
         assertEquals("New Task | 10-02-2026", tasks.get(0));
     }
 
