@@ -1,4 +1,8 @@
+package test.java;
 import org.junit.jupiter.api.*;
+
+import main.java.AddTask;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AddTaskTest {
