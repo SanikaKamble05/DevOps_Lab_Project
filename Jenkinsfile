@@ -1,26 +1,34 @@
 pipeline {
     agent any
-    
-    tools {
-        // This must match the 'Name' you gave Maven in Step 1
-        maven 'Maven3' 
-    }
 
     stages {
+        stage('Clone Code') {
+            steps {
+                echo "Cloning done automatically"
+            }
+        }
+
         stage('Build') {
             steps {
+                // This compiles your code using Maven
                 bat 'mvn clean compile'
             }
         }
-        stage('Test') {
+
+        stage('Run Tests') {
             steps {
+                // Since there is no main method, we run the tests to show output
                 bat 'mvn test'
             }
         }
-        stage('Run') {
-            steps {
-                bat 'mvn clean compile exec:java -Dexec.mainClass="AddTask"' 
-            }
+    }
+
+    post {
+        success {
+            echo 'Build SUCCESS'
+        }
+        failure {
+            echo 'Build FAILED' 
         }
     }
 }
