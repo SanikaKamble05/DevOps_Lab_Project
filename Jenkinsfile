@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    
+    // Add this section
+    tools {
+        maven 'Maven3' // Use the EXACT name you found in Step 1
+    }
 
     stages {
         stage('Clone Code') {
@@ -10,14 +15,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                // This compiles your code using Maven
                 bat 'mvn clean compile'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Since there is no main method, we run the tests to show output
                 bat 'mvn test'
             }
         }
@@ -25,10 +28,10 @@ pipeline {
 
     post {
         success {
-            echo 'Build SUCCESS'
+            echo 'Build SUCCESS ✅'
         }
         failure {
-            echo 'Build FAILED' 
+            echo 'Build FAILED ❌'
         }
     }
 }
