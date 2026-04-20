@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    
+    tools {
+        // This must match the 'Name' you gave Maven in Step 1
+        maven 'Maven3' 
+    }
+
     stages {
         stage('Build') {
             steps {
