@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Run') {
             steps {
-                bat 'mvn exec:java -Dexec.mainClass="AddTask"'
+                bat 'mvn clean compile exec:java -Dexec.mainClass="AddTask"' 
             }
         }
     }
