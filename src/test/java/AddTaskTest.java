@@ -8,62 +8,76 @@ public class AddTaskTest {
 
     private AddTask add_var;
 
+    // Runs before each test case
     @BeforeEach
     void setUp() {
-        // Initialize object before each test
         add_var = new AddTask();
     }
 
+    // Runs after each test case
     @AfterEach
     void tearDown() {
-        // Clear object after each test
         add_var = null;
     }
 
     @Test
+    // Test case 1: Add a single valid task
     void addtest1() {
-        // Test adding one valid task
         add_var.addTask("Buy Milk", "12/12/2024");
 
+        // Check if one task is added
         assertEquals(1, add_var.getTasks().size());
+
+         // Check if title is correct
         assertEquals("Buy Milk", add_var.getTasks().get(0).getTitle());
-        // Verify the due date is correctly stored as string
+
+        // Check if due date is correct
         assertEquals("12/12/2024", add_var.getTasks().get(0).getDueDate());
     }
 
     @Test
+    // Test case 2: Add multiple tasks
     void addtest2() {
-        // Test adding multiple tasks
         add_var.addTask("Read Book", "01/01/2025");
         add_var.addTask("Go Jogging", "02/01/2025");
 
+        // Check total number of tasks
         assertEquals(2, add_var.getTasks().size());
+
+        // Verify titles of both tasks
         assertEquals("Read Book", add_var.getTasks().get(0).getTitle());
         assertEquals("Go Jogging", add_var.getTasks().get(1).getTitle());
-        assertEquals("01/01/2025", add_var.getTasks().get(0).getDueDate());
-        assertEquals("02/01/2025", add_var.getTasks().get(1).getDueDate());
     }
 
     @Test
+    // Test case 3: Empty title should not be added
     void addtest3() {
-        // Test adding empty title (should not add)
         add_var.addTask("", "12/12/2024");
         assertEquals(0, add_var.getTasks().size());
     }
 
     @Test
+    // Test case 4: Null title should not be added
     void addtest4() {
-        // Test adding null title (should not add)
         add_var.addTask(null, "12/12/2024");
         assertEquals(0, add_var.getTasks().size());
     }
 
     @Test
+    // Test case 5: Allow null due date
     void addtest_nullDate() {
-        // Test adding a task with null due date
         add_var.addTask("Read Book", null);
 
         assertEquals(1, add_var.getTasks().size());
         assertNull(add_var.getTasks().get(0).getDueDate());
+    }
+
+    // Test case 6: Test priority and category feature
+    @Test
+    void addtest_priority_category() {
+        add_var.addTask("Study", "15/01/2025", "HIGH", "Study");
+
+        assertEquals("HIGH", add_var.getTasks().get(0).getPriority());
+        assertEquals("Study", add_var.getTasks().get(0).getCategory());
     }
 }

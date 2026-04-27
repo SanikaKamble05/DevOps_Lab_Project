@@ -1,9 +1,8 @@
 pipeline {
     agent any
     
-    // Add this section
     tools {
-        maven 'Maven3' // Use the EXACT name you found in Step 1
+        maven 'Maven3'
     }
 
     stages {
