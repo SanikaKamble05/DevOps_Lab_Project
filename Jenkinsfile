@@ -54,6 +54,13 @@ stages {
         }
     }
 
+    // - 5. run python script to deploy the application on local machine
+    stage('Run Python App') {
+            steps {
+                bat 'start python app.py'
+            }
+        }
+
 }
 
 post {
