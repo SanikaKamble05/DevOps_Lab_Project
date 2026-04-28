@@ -29,7 +29,7 @@
         font-weight: 600;
     }
 
-    input {
+    input[type="text"] {
         width: 100%;
         padding: 14px;
         border: 1px solid #d0d7de;
@@ -37,9 +37,10 @@
         font-size: 14px;
         background: #fafbfc;
         outline: none;
+        box-sizing: border-box;
     }
 
-    input:focus {
+    input[type="text"]:focus {
         border-color: #4f46e5;
         background: white;
     }
@@ -58,9 +59,8 @@
         transition: 0.2s;
     }
 
-    button:hover {
-        background: #4338ca;
-    }
+    button:hover { background: #4338ca; }
+    button:disabled { background: #a5b4fc; cursor: not-allowed; }
 
     .section-title {
         margin-top: 28px;
@@ -71,247 +71,337 @@
         font-weight: 600;
     }
 
-   ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-}
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 12px;
+    }
 
-li {
-    margin-bottom: 10px;
-}
+    li { margin-bottom: 10px; }
 
-/* ⭐ FIXED ROW LAYOUT */
-.task-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    .task-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 14px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
 
-    padding: 12px 14px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    .task-row:hover { background: #f3f4f6; }
 
-    width: 100%;
-    box-sizing: border-box;
-}
+    .task-row.main-task {
+        background: #e0e7ff;
+        border-color: #c7d2fe;
+    }
 
-/* checkbox fixed size, no stretching */
-.task-check {
-    width: 16px;
-    height: 16px;
-    margin-top: 3px;
-    flex-shrink: 0;
-}
+    .task-row.main-task:hover { background: #ddd6fe; }
 
-/* text takes remaining space properly */
-.task-text {
-    flex: 1;
-    font-size: 14px;
-    color: #111827;
-    line-height: 1.5;
+    .task-check {
+        width: 16px;
+        height: 16px;
+        margin-top: 3px;
+        flex-shrink: 0;
+        cursor: pointer;
+        accent-color: #4f46e5;
+    }
 
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
+    .task-text {
+        flex: 1;
+        font-size: 14px;
+        color: #111827;
+        line-height: 1.5;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        transition: color 0.2s;
+    }
 
-/* optional points badge */
-.points {
-    font-size: 11px;
-    color: #4f46e5;
-    background: #eef2ff;
-    padding: 3px 8px;
-    border-radius: 999px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-    .badge {
-        margin-left: auto;
+    .task-text.done {
+        text-decoration: line-through;
+        color: #9ca3af;
+    }
+
+    .points {
         font-size: 11px;
-        background: #eef2ff;
         color: #4f46e5;
+        background: #eef2ff;
         padding: 3px 8px;
         border-radius: 999px;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
-    .loader {
-        display: none;
-        margin-top: 10px;
-        font-size: 13px;
-        color: #6b7280;
+    .points.earned {
+        color: #16a34a;
+        background: #dcfce7;
     }
+
+    /* Status feedback bar */
+    .status-bar {
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        display: none;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .status-bar.loading {
+        display: flex;
+        background: #eef2ff;
+        color: #4338ca;
+        border: 1px solid #c7d2fe;
+    }
+
+    .status-bar.error {
+        display: flex;
+        background: #fff7ed;
+        color: #c2410c;
+        border: 1px solid #fed7aa;
+    }
+
+    .status-bar.success {
+        display: flex;
+        background: #f0fdf4;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    .spinner {
+        width: 14px;
+        height: 14px;
+        border: 2px solid #c7d2fe;
+        border-top-color: #4f46e5;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .scoreboard {
-    margin-top: 15px;
-    padding: 12px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: #374151;
+        margin-top: 15px;
+        padding: 12px 16px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #374151;
+    }
+
+    .scoreboard span {
+        font-weight: 600;
+        color: #4f46e5;
+    }
+
+    .completed-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0 10px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #9ca3af;
+        font-weight: 600;
+    }
+
+    .completed-divider::before,
+    .completed-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e5e7eb;
     }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
     <h2>AI Task Tracker</h2>
 
     <input type="text" id="taskInput" placeholder="Enter your task..." />
+    <button id="generateBtn" onclick="generateSubtasks()">Generate Subtasks</button>
 
-    <button onclick="generateSubtasks()">Generate Subtasks</button>
-
-    <div class="section-title">Weekly Progress</div>
-
-    <div class="scoreboard">
-        <div>Total Points: <span id="totalPoints">0</span></div>
-        <div>Week High Score: <span id="weekHigh">0</span></div>
+    <div class="status-bar" id="statusBar">
+        <div class="spinner" id="statusSpinner"></div>
+        <span id="statusText"></span>
     </div>
 
-    <div class="loader" id="loader">Generating subtasks using AI...</div>
+    <div class="section-title">Weekly Progress</div>
+    <div class="scoreboard">
+        <div>Total Points: <span id="totalPoints">0</span></div>
+        <div>Completed Today: <span id="completedToday">0</span></div>
+        <div>Week High: <span id="weekHigh">0</span></div>
+    </div>
 
-    <div class="section-title">Subtasks</div>
-    <ul id="subtaskList"></ul>
+    <div class="section-title">Tasks</div>
+    <ul id="taskList"></ul>
 
 </div>
 
 <script>
     let totalPoints = 0;
     let weekHigh = 0;
+    let tasks = [];  // { id, text, isMain, points, done, parentId? }
+    let nextId = 0;
 
-    function updatePoints(checked) {
-        if (checked) {
-            totalPoints += 2;
-        } else {
-            totalPoints -= 2;
+    // ── Status bar ─────────────────────────────────────────────────────────
+    function showStatus(type, message) {
+        const bar     = document.getElementById("statusBar");
+        const spinner = document.getElementById("statusSpinner");
+        const text    = document.getElementById("statusText");
+        bar.className = "status-bar " + type;
+        spinner.style.display = (type === "loading") ? "block" : "none";
+        text.textContent = message;
+    }
+
+    function hideStatus() {
+        document.getElementById("statusBar").className = "status-bar";
+    }
+
+    // ── Points ─────────────────────────────────────────────────────────────
+    function recalcPoints() {
+        totalPoints = tasks.filter(t => t.done).reduce((sum, t) => sum + t.points, 0);
+        if (totalPoints > weekHigh) weekHigh = totalPoints;
+
+        const completedMainTasks = tasks.filter(t => t.done && t.isMain).length;
+
+        document.getElementById("totalPoints").innerText    = totalPoints;
+        document.getElementById("completedToday").innerText = completedMainTasks;
+        document.getElementById("weekHigh").innerText       = weekHigh;
+    }
+
+    // ── Toggle ─────────────────────────────────────────────────────────────
+    function toggleTask(id) {
+        const task = tasks.find(t => t.id === id);
+        if (!task) return;
+
+        task.done = !task.done;
+
+        // Main task toggles all its subtasks
+        if (task.isMain) {
+            tasks.filter(t => t.parentId === id).forEach(t => t.done = task.done);
         }
 
-        if (totalPoints < 0) totalPoints = 0;
-
-        if (totalPoints > weekHigh) {
-            weekHigh = totalPoints;
+        // Subtask: auto-complete parent when all siblings done
+        if (task.parentId !== undefined) {
+            const siblings = tasks.filter(t => t.parentId === task.parentId);
+            const parent   = tasks.find(t => t.id === task.parentId);
+            if (parent) parent.done = siblings.every(t => t.done);
         }
 
-        document.getElementById("totalPoints").innerText = totalPoints;
-        document.getElementById("weekHigh").innerText = weekHigh;
+        recalcPoints();
+        renderTasks();
     }
 
-    function displayFallback(task) {
-    const container = document.getElementById("subtaskList");
-    container.innerHTML = "";
+    // ── Render ─────────────────────────────────────────────────────────────
+    function renderTasks() {
+        const container = document.getElementById("taskList");
+        container.innerHTML = "";
 
-    const fallbackTasks = [
-        task, // ⭐ always include original task
-        "AI service temporarily unavailable",
-        "Retry generation for detailed subtasks"
-    ];
+        const pending = tasks.filter(t => !t.done);
+        const done    = tasks.filter(t => t.done);
 
-    fallbackTasks.forEach(t => {
-        const li = document.createElement("li");
+        pending.forEach(t => container.appendChild(buildRow(t)));
 
+        if (done.length > 0) {
+            const divider = document.createElement("div");
+            divider.className = "completed-divider";
+            divider.textContent = "Completed today (" + done.length + ")";
+            container.appendChild(divider);
+            done.forEach(t => container.appendChild(buildRow(t)));
+        }
+    }
+
+    function buildRow(task) {
+        const li        = document.createElement("li");
+        const rowClass  = task.isMain ? "task-row main-task" : "task-row";
+        const textClass = task.done   ? "task-text done"     : "task-text";
+        const ptClass   = task.done   ? "points earned"      : "points";
+        const ptLabel   = task.done   ? "✓ " + task.points + " pts" : "+" + task.points + " pts";
+        const checked   = task.done   ? "checked" : "";
+        const indent    = (!task.isMain && task.parentId !== undefined) ? "margin-left:20px;" : "";
+        const label     = task.isMain ? "<b>Main Task:</b> " + task.text : task.text;
+
+        li.style.cssText = indent;
         li.innerHTML = `
-            <label class="task-row">
-                <input type="checkbox" class="task-check">
-                <span class="task-text">${t}</span>
-                <span class="points">+1 pt</span>
-            </label>
-        `;
-
-        container.appendChild(li);
-    });
-}
-
-let mainTaskDone = false;
-let subtaskStates = [];
-
-function displayTaskWithSubtasks(task, subtasks) {
-    const container = document.getElementById("subtaskList");
-    container.innerHTML = "";
-
-    subtaskStates = new Array(subtasks.length).fill(false);
-
-    // ⭐ MAIN TASK
-    const main = document.createElement("li");
-
-    main.innerHTML = `
-        <label class="task-row" style="background:#e0e7ff;">
-            <input type="checkbox" onchange="toggleMainTask(this, ${subtasks.length})">
-            <span class="task-text"><b>Main Task:</b> ${task}</span>
-        </label>
-    `;
-
-    container.appendChild(main);
-
-    // ⭐ SUBTASKS
-    subtasks.forEach((t, index) => {
-        const li = document.createElement("li");
-
-        li.innerHTML = `
-            <label class="task-row">
-                <input type="checkbox" onchange="toggleSubtask(${index}, ${subtasks.length})">
-                <span class="task-text">${t}</span>
-            </label>
-        `;
-
-        container.appendChild(li);
-    });
-}
-
-function toggleSubtask(index, total) {
-    subtaskStates[index] = !subtaskStates[index];
-
-    const allDone = subtaskStates.every(v => v === true);
-
-    if (allDone) {
-        alert("🎉 All subtasks completed! Main task done.");
+            <label class="${rowClass}">
+                <input type="checkbox" class="task-check" ${checked}
+                       onchange="toggleTask(${task.id})">
+                <span class="${textClass}">${label}</span>
+                <span class="${ptClass}">${ptLabel}</span>
+            </label>`;
+        return li;
     }
-}
 
-function toggleMainTask(checkbox, total) {
-    if (checkbox.checked) {
-        subtaskStates = subtaskStates.map(() => true);
-
-        document.querySelectorAll("#subtaskList input[type='checkbox']")
-            .forEach(cb => cb.checked = true);
-    } else {
-        subtaskStates = subtaskStates.map(() => false);
-
-        document.querySelectorAll("#subtaskList input[type='checkbox']")
-            .forEach(cb => cb.checked = false);
+    // ── Add tasks ──────────────────────────────────────────────────────────
+    function addMainTask(text) {
+        tasks.push({ id: nextId++, text, isMain: true, points: 5, done: false });
+        recalcPoints();
+        renderTasks();
     }
-}
 
+    function addTaskWithSubtasks(text, subtasks) {
+        const mainId = nextId++;
+        tasks.push({ id: mainId, text, isMain: true, points: 5, done: false });
+        subtasks.forEach(s => {
+            tasks.push({ id: nextId++, text: s, isMain: false, points: 2, done: false, parentId: mainId });
+        });
+        recalcPoints();
+        renderTasks();
+    }
+
+    // ── Generate subtasks ──────────────────────────────────────────────────
     async function generateSubtasks() {
-    const task = document.getElementById("taskInput").value;
+        const input = document.getElementById("taskInput");
+        const task  = input.value.trim();
 
-    const res = await fetch('http://127.0.0.1:5000/generate_subtasks', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ task })
-    });
+        if (!task) {
+            showStatus("error", "⚠ Please enter a task first.");
+            return;
+        }
 
-    let data;
+        const btn = document.getElementById("generateBtn");
+        btn.disabled = true;
+        showStatus("loading", "Generating subtasks using AI…");
 
-    try {
-        data = await res.json();
-    } catch (e) {
-        displayFallback(task);
-        return;
+        try {
+            const res = await fetch("http://127.0.0.1:5000/generate_subtasks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ task })
+            });
+
+            let data = null;
+            try { data = await res.json(); } catch(e) {}
+
+            if (!res.ok || !data || !data.subtasks || data.subtasks.length === 0) {
+                addMainTask(task);
+                showStatus("error", "⚠ Could not generate subtasks — main task added. You can retry.");
+            } else {
+                addTaskWithSubtasks(data.task || task, data.subtasks);
+                showStatus("success", "✓ " + data.subtasks.length + " subtasks generated successfully.");
+                setTimeout(hideStatus, 3000);
+            }
+
+        } catch (err) {
+            addMainTask(task);
+            showStatus("error", "⚠ AI service unreachable — main task added without subtasks.");
+        }
+
+        input.value = "";
+        btn.disabled = false;
     }
-
-    if (!res.ok || !data.subtasks) {
-        displayFallback(task);
-        return;
-    }
-
-    displayTaskWithSubtasks(data.task, data.subtasks);
-}
 </script>
 
 </body>
