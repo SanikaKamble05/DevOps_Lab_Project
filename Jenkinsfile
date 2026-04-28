@@ -57,7 +57,8 @@ pipeline {
 
         stage('Open Browser') {
             steps {
-                bat 'timeout 5 && start http://localhost:5000'
+                bat 'timeout /t 5'
+                bat 'start http://localhost:5000'
             }
         }
     }
