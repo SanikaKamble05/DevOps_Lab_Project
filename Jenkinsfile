@@ -54,6 +54,12 @@ pipeline {
                 bat 'start python app.py'
             }
         }
+
+        stage('Open Browser') {
+            steps {
+                bat 'timeout 5 && start http://localhost:5000'
+            }
+        }
     }
 
     post {
