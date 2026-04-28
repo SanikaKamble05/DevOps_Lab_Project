@@ -221,6 +221,26 @@
         height: 1px;
         background: #e5e7eb;
     }
+
+    .delete-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #d1d5db;
+        font-size: 16px;
+        padding: 0 2px;
+        margin: 0;
+        width: auto;
+        margin-top: 1px;
+        flex-shrink: 0;
+        line-height: 1;
+        transition: color 0.15s;
+    }
+
+    .delete-btn:hover {
+        color: #ef4444;
+        background: none;
+    }
 </style>
 </head>
 
@@ -328,7 +348,7 @@
         const rowClass  = task.isMain ? "task-row main-task" : "task-row";
         const textClass = task.done   ? "task-text done"     : "task-text";
         const ptClass   = task.done   ? "points earned"      : "points";
-        const ptLabel   = task.done   ? "✓ " + task.points + " pts" : "+" + task.points + " pts";
+        const ptLabel   = task.done   ? "\u2713 " + task.points + " pts" : "+" + task.points + " pts";
         const checked   = task.done   ? "checked" : "";
         const indent    = (!task.isMain && task.parentId !== undefined) ? "margin-left:20px;" : "";
         const label     = task.isMain ? "<b>Main Task:</b> " + task.text : task.text;
@@ -340,8 +360,54 @@
                        onchange="toggleTask(${task.id})">
                 <span class="${textClass}">${label}</span>
                 <span class="${ptClass}">${ptLabel}</span>
+                <button class="delete-btn" title="Delete task"
+                        onclick="event.preventDefault(); deleteTask(${task.id})">&#x2715;</button>
             </label>`;
         return li;
+    }
+
+    // ── Delete task ─────────────────────────────────────────────────────────
+    // Sends the full task list to Flask, which calls TodoList.deleteTask
+    // in the compiled JAR. The JAR returns the remaining tasks after deletion.
+    // Subtasks are excluded from the JAR call (Java model has no subtasks);
+    // subtask cleanup is handled here using parentId.
+    async function deleteTask(id) {
+        const task = tasks.find(t => t.id === id);
+        if (!task) return;
+
+        // Collect which frontend IDs to remove (main task + its subtasks)
+        const idsToRemove = new Set([id]);
+        if (task.isMain) {
+            tasks.filter(t => t.parentId === id).forEach(t => idsToRemove.add(t.id));
+        }
+
+        // Send only main tasks to the JAR — matches the Java Task/TodoList model
+        const mainTasks = tasks
+            .filter(t => t.isMain)
+            .map(t => ({ id: t.id, title: t.text }));
+
+        try {
+            const res  = await fetch("http://127.0.0.1:5000/delete_task", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ taskId: id, tasks: mainTasks })
+            });
+            const data = await res.json();
+
+            // data.deleted mirrors TodoList.deleteTask return value (true/false)
+            if (!data.deleted) {
+                console.warn("deleteTask: JAR returned false — task ID not found");
+                return;
+            }
+        } catch(e) {
+            // Network/JAR unavailable: still delete locally so UI stays responsive
+            console.warn("deleteTask: could not reach backend, deleting locally", e);
+        }
+
+        // Remove the task and all its subtasks from local state
+        tasks = tasks.filter(t => !idsToRemove.has(t.id));
+        recalcPoints();
+        renderTasks();
     }
 
     // ── Add tasks ──────────────────────────────────────────────────────────
