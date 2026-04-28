@@ -57,7 +57,7 @@ pipeline {
 
         stage('Open Browser') {
             steps {
-                bat 'timeout /t 5'
+                bat 'ping 127.0.0.1 -n 6 > nul'
                 bat 'start http://localhost:5000'
             }
         }
