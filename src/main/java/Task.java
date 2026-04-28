@@ -1,5 +1,4 @@
 public class Task {
-
     private int id;
     private String title;
 
@@ -14,5 +13,10 @@ public class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + title;
     }
 }

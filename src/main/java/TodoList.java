@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class TodoList {
-
     private int id;
     private String title;
 
@@ -18,18 +17,25 @@ public class TodoList {
         return title;
     }
 
-    public static void deleteTask(ArrayList<Task> tasks, int taskId) {
+    /**
+     * Deletes a task from the list by its ID.
+     * @param tasks  the list of tasks
+     * @param taskId the ID of the task to delete
+     * @return true if the task was found and deleted, false if not found
+     */
+    public static boolean deleteTask(ArrayList<Task> tasks, int taskId) {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getId() == taskId) {
                 tasks.remove(i);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public static void printTasks(ArrayList<Task> tasks) {
         for (Task task : tasks) {
-            System.out.println(task.getId() + " - " + task.getTitle());
+            System.out.println(task);
         }
     }
 }
