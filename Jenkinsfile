@@ -62,8 +62,7 @@ pipeline {
 
         stage('Open Browser') {
             steps {
-                bat 'ping 127.0.0.1 -n 10 > nul'
-                bat 'start http://localhost:5000'
+                bat 'cmd /c start http://localhost:5000'
             }
         }
     }
