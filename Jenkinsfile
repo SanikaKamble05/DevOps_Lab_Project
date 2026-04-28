@@ -47,24 +47,6 @@ pipeline {
                 bat 'mvn package -DskipTests'
             }
         }
-
-        stage('Run Python App') {
-            steps {
-                bat 'start cmd /k python app.py'
-            }
-        }
-
-        stage('Wait for Flask') {
-            steps {
-                bat 'ping 127.0.0.1 -n 10 > nul'
-            }
-        }
-
-        stage('Open Browser') {
-            steps {
-                bat 'cmd /c start http://localhost:5000'
-            }
-        }
     }
 
     post {
