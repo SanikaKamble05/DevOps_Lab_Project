@@ -50,14 +50,19 @@ pipeline {
 
         stage('Run Python App') {
             steps {
-                echo '>>> Starting Python app'
-                bat 'start python app.py'
+                echo 'Starting Flask app'
+                bat 'start "" python app.py'
+            }
+        }
+
+        stage('Wait for Flask') {
+            steps {
+                bat 'ping 127.0.0.1 -n 10 > nul'
             }
         }
 
         stage('Open Browser') {
             steps {
-                bat 'ping 127.0.0.1 -n 6 > nul'
                 bat 'start http://localhost:5000'
             }
         }
